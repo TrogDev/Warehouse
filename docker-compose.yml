@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - frontend_volume:/app/frontend/build
+  backend:
+    build: ./backend
+    command: dotnet Warehouse.Web.Api.dll
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - 8080
+  frontend:
+    build: ./frontend
+    volumes:
+      - frontend_volume:/app/frontend/build
+  db:
+    image: postgres:15.1
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=warehouse
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+volumes:
+  postgres_data:
+  frontend_volume:
