@@ -1,5 +1,5 @@
 # Warehouse
-Приложение для управления складом, тестовое задание https://docs.google.com/document/d/1kysWVjkzO6x0HIIkFC7xxVkklAmdiyWdWtIr--eC3vk уровень: Middle.
+Приложение для управления складом
 
 ## Технологии
 - C# (ASP.NET)
